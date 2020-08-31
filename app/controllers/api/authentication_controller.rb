@@ -1,6 +1,4 @@
 class Api::AuthenticationController < ApplicationController
-  before_action :authorize_request
-
   # POST /sign_in
   def sign_in
     @user = User.find_by_email(params[:email])
