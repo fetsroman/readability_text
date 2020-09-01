@@ -12,6 +12,6 @@ Rails.application.routes.draw do
     post '/sign_up', to: 'users#create'
     post '/sign_in', to: 'authentication#sign_in'
 
-    resources :texts, only: [:index, :show, :create]
+    resources :texts, only: [:index, :show, :create, :update]
   end
 end

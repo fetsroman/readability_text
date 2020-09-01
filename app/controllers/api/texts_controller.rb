@@ -1,6 +1,6 @@
-class Api::TextsController < ApplicationController
-  before_action :set_text, only: [:show]
-  before_action :authorize_request, only: [:index, :show, :create]
+class Api::TextsController < ApiController
+  before_action :set_text, only: [:show, :update]
+  before_action :authorize_request, only: [:index, :show, :create, :update]
 
   def index
     render json: @current_user.texts
@@ -14,6 +14,14 @@ class Api::TextsController < ApplicationController
     @text = @current_user.texts.create(text_params)
 
     if @text.save
+      render json: @text, status: :created
+    else
+      render json: @text.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @text.update(text_params)
       render json: @text, status: :created
     else
       render json: @text.errors, status: :unprocessable_entity
