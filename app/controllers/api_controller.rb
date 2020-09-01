@@ -1,5 +1,10 @@
 class ApiController < ActionController::API
   require 'json_web_token'
+  include CanCan::ControllerAdditions
+
+  def current_user
+    @current_user
+  end
 
   def authorize_request
     @header = request.headers['Authorization']
@@ -12,5 +17,11 @@ class ApiController < ActionController::API
     rescue JWT::DecodeError => e
       render json: { errors: e.message }, status: :unauthorized
     end
+  end
+
+  private
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: { errors: exception.message }, status: 403
   end
 end

@@ -7,6 +7,7 @@ class Api::TextsController < ApiController
   end
 
   def show
+    authorize! :read, @text
     render json: @text
   end
 
@@ -21,6 +22,7 @@ class Api::TextsController < ApiController
   end
 
   def update
+    authorize! :update, @text
     if @text.update(text_params)
       render json: @text, status: :created
     else
